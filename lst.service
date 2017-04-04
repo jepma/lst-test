@@ -6,4 +6,5 @@ Requires=docker.service
 [Service]
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker pull weaveworksdemos/load-test
-ExecStart=/usr/bin/bash -c 'while true; do docker run --net=host --rm weaveworksdemos/load-test -d 5 -h $LSTHOST -c 100 -r 5000; sleep 1; done'
+ExecStartPre=-/usr/bin/docker docker rm -f lst || true
+ExecStart=/usr/bin/bash -c 'while true; do ( cmdpid=$BASHPID; (sleep 480; docker rm -f lst) & exec docker run --name=lst --rm --net=host --rm jepmam/lst-test -h $LSTHOST -c 450 -r 15000 ); echo "done testing; now sleeping for n seconds..."; sleep $((60 + RANDOM % 180)); echo "done sleeping, new lst iteration!"; done'
