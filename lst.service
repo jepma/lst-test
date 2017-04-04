@@ -6,4 +6,4 @@ Requires=docker.service
 [Service]
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker pull weaveworksdemos/load-test
-ExecStart=/usr/bin/bash -c 'while true; do docker run --net=host --rm weaveworksdemos/load-test -d 5 -h demo.5bd1269b11fc4c7c128e.kpnappfactory.nl -c 100 -r 5000; sleep 1; done'
+ExecStart=/usr/bin/bash -c 'while true; do docker run --net=host --rm weaveworksdemos/load-test -d 5 -h $LSTHOST -c 100 -r 5000; sleep 1; done'
